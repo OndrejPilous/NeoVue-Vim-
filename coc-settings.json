@@ -1,0 +1,46 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "json",
+    "css",
+    "scss",
+    "html",
+    "markdown",
+    "yaml",
+    "vue"
+  ],
+  "prettier.enable": true,
+  "prettier.disableLanguages": [],
+  "prettier.configPath": ".prettierrc",
+  "tsserver.enable": true,
+  "eslint.enable": true,
+  "eslint.filetypes": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "vue"
+  ],
+  "coc.preferences.formatOnSave": true,
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.autoImportSuggestions": true,
+  "coc.preferences.enableLanguageServer": true,
+  "coc.preferences.showMessageLevel": "warning",
+  "suggest.noselect": false,
+  "suggest.autoTrigger": true,
+  "diagnostic.enable": true,
+  "diagnostic.checkCurrentLine": true,
+  "coc.preferences.snippetIndicator": "●",
+  "coc.preferences.maxImportLines": 5,
+  "coc.source.file.enable": true,
+  "coc.source.buffer.enable": true,
+  "coc.source.git.enable": true,
+  "coc.source.project.enable": true,
+  "coc.source.path.enable": true,
+  "coc.source.manifest.enable": true,
+  "coc.source.yarn.enable": true
+}
+
