@@ -249,9 +249,9 @@ require("lazy").setup({
 				"typescript",
 				"vim",
 				"vimdoc",
+				"vue",
 				"xml",
 				"yaml",
-				"vue"
 			},
 		},
 	},
