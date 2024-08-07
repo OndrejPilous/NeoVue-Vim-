@@ -90,6 +90,7 @@ require("lazy").setup({
 
 			-- Document existing key chains
 			require('which-key').add {
+				{ '<leader>a', group = '[A]ctions' },
 				{ '<leader>c', group = '[C]ode' },
 				{ '<leader>d', group = '[D]ocument' },
 				{ '<leader>r', group = '[R]ename' },
@@ -99,11 +100,6 @@ require("lazy").setup({
 				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
 			}
 		end,
-	},
-	{
-		'windwp/nvim-autopairs',
-		event = "InsertEnter",
-		config = true
 	},
 	{
 		"windwp/nvim-ts-autotag"
@@ -320,13 +316,14 @@ require("lazy").setup({
 			keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
 
 			-- Make <CR> to accept selected completion item or notify coc.nvim to format
-
-			keyset("i", "<cr>",
-				[[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]],
+			-- <C-g>u breaks current undo, please make your own choice
+			keyset("i", "<CR>",
+				[[coc#pum#visible() ? coc#pum#confirm() : "\<CR>"]],
 				opts)
 
 			-- Use <c-j> to trigger snippets
 			keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
+
 			-- Use <c-space> to trigger completion
 			keyset("i", "<c-space>", "coc#refresh()", { silent = true, expr = true })
 
@@ -486,4 +483,41 @@ require("lazy").setup({
 			end, {})
 		end,
 	},
+	{
+		'neoclide/coc-tsserver',
+		build = 'npm install --legacy-peer-deps'
+	},
+	{
+		'neoclide/coc-stylelint',
+		build = 'npm install --legacy-peer-deps'
+	},
+	{
+		'josa42/coc-lua',
+		build = 'npm install --legacy-peer-deps'
+	},
+	{
+		'neoclide/coc-prettier',
+		build = 'npm install --legacy-peer-deps'
+	},
+	{
+		'neoclide/coc-eslint',
+		build = 'npm install --legacy-peer-deps'
+	},
+	{
+		'neoclide/coc-css',
+		build = 'npm install --legacy-peer-deps'
+	},
+	{
+		'neoclide/coc-html',
+		build = 'npm install --legacy-peer-deps'
+	},
+	{
+		'neoclide/coc-json',
+		build = 'npm install --legacy-peer-deps'
+	},
+	{
+		'yaegassy/coc-volar',
+		build = 'npm install --legacy-peer-deps'
+	},
+
 })
