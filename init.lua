@@ -519,5 +519,9 @@ require("lazy").setup({
 		'yaegassy/coc-volar',
 		build = 'npm install --legacy-peer-deps'
 	},
+	{
+		'neoclide/coc-pairs',
+		build = 'npm install --legacy-peer-deps'
+	},
 
 })

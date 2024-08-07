@@ -5,6 +5,7 @@
   "coc-html": { "branch": "master", "commit": "70299dbe5e6b9b088a81913cd7939e133d4e3c0a" },
   "coc-json": { "branch": "master", "commit": "06ea3ace3d0c0a8deaa70942d63345718f029612" },
   "coc-lua": { "branch": "main", "commit": "ceedce75a82b3a6d33f33df7c079b5f7bd7ed952" },
+  "coc-pairs": { "branch": "master", "commit": "bb8634db1bf875e64d0534dce90d31e99d0b7369" },
   "coc-prettier": { "branch": "master", "commit": "b0f67a8685cf71b3d1acb6c78da148fc8caa960f" },
   "coc-stylelint": { "branch": "master", "commit": "dff328bd0c66b308233f8a111c09359340b9b093" },
   "coc-tsserver": { "branch": "master", "commit": "a11bc238177b9b6b660292e9c0f198aa1a0f4787" },
