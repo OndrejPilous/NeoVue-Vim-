@@ -30,7 +30,7 @@
   "coc.preferences.enableLanguageServer": true,
   "coc.preferences.showMessageLevel": "warning",
   "suggest.noselect": false,
-  "suggest.autoTrigger": true,
+  "suggest.autoTrigger": "always",
   "diagnostic.enable": true,
   "diagnostic.checkCurrentLine": true,
   "coc.preferences.snippetIndicator": "●",

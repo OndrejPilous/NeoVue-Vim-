@@ -3,6 +3,7 @@ vim.g.maplocalleader = ' '
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 10
+vim.opt.termguicolors = true
 
 -- Bootstrap Lazy Vim package manger
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -98,6 +99,18 @@ require("lazy").setup({
 				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
 			}
 		end,
+	},
+	{
+		'windwp/nvim-autopairs',
+		event = "InsertEnter",
+		config = true
+	},
+	{
+		"windwp/nvim-ts-autotag"
+	},
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 
 	{ -- Fuzzy Finder (files, lsp, etc)
@@ -215,6 +228,7 @@ require("lazy").setup({
 			ensure_installed = {
 				"bash",
 				"c",
+				"css",
 				"diff",
 				"html",
 				"javascript",
@@ -241,6 +255,9 @@ require("lazy").setup({
 			},
 		},
 	},
+	{
+		'posva/vim-vue',
+	},
 
 	{ 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -256,7 +273,13 @@ require("lazy").setup({
 			vim.keymap.set('n', '<C-n>', '<CMD>Neotree toggle<CR>')
 		end
 	},
-
+	{
+		'nvim-lualine/lualine.nvim',
+		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		opts = {
+			theme = 'auto'
+		},
+	},
 	{
 		"neoclide/coc.nvim",
 		branch = "release",
