@@ -104,11 +104,7 @@ require("lazy").setup({
 	{
 		"windwp/nvim-ts-autotag"
 	},
-	{
-		"folke/todo-comments.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-	},
-
+	-- NOTE: Telescope for fast and comfortable fuzzy searching
 	{ -- Fuzzy Finder (files, lsp, etc)
 		'nvim-telescope/telescope.nvim',
 		event = 'VimEnter',
@@ -204,7 +200,7 @@ require("lazy").setup({
 			end, { desc = '[S]earch [N]eovim files' })
 		end,
 	},
-
+	-- NOTE: Treesitter for parsing text for better readability and more
 	{
 		"nvim-treesitter/nvim-treesitter",
 		version = false, -- last release is way too old and doesn't work on Windows
@@ -251,12 +247,50 @@ require("lazy").setup({
 			},
 		},
 	},
+	-- NOTE: Improved readability for vue code
 	{
 		'posva/vim-vue',
 	},
-
+	-- NOTE: Nice comment styling
 	{ 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
+	-- NOTE: from LazyVim distro
+	{
+		"echasnovski/mini.ai",
+		event = "VeryLazy",
+		opts = function()
+			local ai = require("mini.ai")
+			return {
+				n_lines = 500,
+				custom_textobjects = {
+					o = ai.gen_spec.treesitter({ -- code block
+						a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+						i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+					}),
+					f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
+					c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
+					t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
+					d = { "%f[%d]%d+" },                       -- digits
+					e = {                                      -- Word with case
+						{ "%u[%l%d]+%f[^%l%d]", "%f[%S][%l%d]+%f[^%l%d]", "%f[%P][%l%d]+%f[^%l%d]", "^[%l%d]+%f[^%l%d]" },
+						"^().*()$",
+					},
+					i = LazyVim.mini.ai_indent, -- indent
+					g = LazyVim.mini.ai_buffer, -- buffer
+					u = ai.gen_spec.function_call(), -- u for "Usage"
+					U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
+				},
+			}
+		end,
+		config = function(_, opts)
+			require("mini.ai").setup(opts)
+			LazyVim.on_load("which-key.nvim", function()
+				vim.schedule(function()
+					LazyVim.mini.ai_whichkey(opts)
+				end)
+			end)
+		end,
+	},
+	-- NOTE: Prefered nvim file explorer
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
@@ -269,6 +303,7 @@ require("lazy").setup({
 			vim.keymap.set('n', '<C-n>', '<CMD>Neotree toggle<CR>')
 		end
 	},
+	-- NOTE: Nice looking bar on the bottom
 	{
 		'nvim-lualine/lualine.nvim',
 		dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -276,12 +311,14 @@ require("lazy").setup({
 			theme = 'auto'
 		},
 	},
+	-- NOTE: For recovering from undo mistakes and managing undo branches
 	{
 		"mbbill/undotree",
 		keys = {
 			{ "<leader>tu", "<cmd>UndotreeToggle<cr>", desc = "UndoTree" }
 		}
 	},
+	-- NOTE: Powerful git terminal client
 	{
 		"kdheepak/lazygit.nvim",
 		cmd = {
@@ -301,7 +338,7 @@ require("lazy").setup({
 			{ "<leader>tg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
 		}
 	},
-
+	-- NOTE: For managing lsps, linters, formatters, and more (older alternative to Mason, Null-ls, nvim-cmp, etc) - this approach had the least vue sfc issues
 	{
 		"neoclide/coc.nvim",
 		branch = "release",
@@ -509,6 +546,7 @@ require("lazy").setup({
 			end, {})
 		end,
 	},
+	-- NOTE: Coc plugins START
 	{
 		'neoclide/coc-tsserver',
 		build = 'npm install --legacy-peer-deps'
@@ -549,5 +587,6 @@ require("lazy").setup({
 		'neoclide/coc-pairs',
 		build = 'npm install --legacy-peer-deps'
 	},
+	-- NOTE: Coc plugins END
 
 })
