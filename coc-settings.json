@@ -1,17 +1,4 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": [
-    "javascript",
-    "typescript",
-    "javascriptreact",
-    "typescriptreact",
-    "json",
-    "css",
-    "scss",
-    "html",
-    "markdown",
-    "yaml",
-    "vue"
-  ],
   "prettier.enable": true,
   "prettier.disableLanguages": [],
   "prettier.configPath": ".prettierrc",
@@ -43,4 +30,3 @@
   "coc.source.manifest.enable": true,
   "coc.source.yarn.enable": true
 }
-

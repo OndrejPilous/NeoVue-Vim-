@@ -90,14 +90,16 @@ require("lazy").setup({
 
 			-- Document existing key chains
 			require('which-key').add {
-				{ '<leader>a', group = '[A]ctions' },
-				{ '<leader>c', group = '[C]ode' },
-				{ '<leader>d', group = '[D]ocument' },
-				{ '<leader>r', group = '[R]ename' },
-				{ '<leader>s', group = '[S]earch' },
-				{ '<leader>w', group = '[W]orkspace' },
-				{ '<leader>t', group = '[T]oggle' },
-				{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+				{ '<leader>a',  group = '[A]ctions' },
+				{ '<leader>c',  group = '[C]ode' },
+				{ '<leader>d',  group = '[D]ocument' },
+				{ '<leader>dl', group = '[L]int' },
+				{ '<leader>df', group = '[F]ormat' },
+				{ '<leader>r',  group = '[R]ename' },
+				{ '<leader>s',  group = '[S]earch' },
+				{ '<leader>w',  group = '[W]orkspace' },
+				{ '<leader>t',  group = '[T]oggle' },
+				{ '<leader>h',  group = 'Git [H]unk', mode = { 'n', 'v' } },
 			}
 		end,
 	},
@@ -468,7 +470,7 @@ require("lazy").setup({
 				end
 			end, {})
 			vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
-			keyset("n", "<leader>df", "<CMD>call CocAction('format')<CR>", { silent = true, noremap = true })
+			keyset("n", "<leader>dfc", "<CMD>call CocAction('format')<CR>", { silent = true, noremap = true })
 
 			-- " Add `:Fold` command to fold current buffer
 			vim.api.nvim_create_user_command("Fold", "call CocAction('fold', <f-args>)", { nargs = '?' })
@@ -509,47 +511,7 @@ require("lazy").setup({
 			end, {})
 		end,
 	},
-	-- NOTE: Coc plugins START
-	{
-		'neoclide/coc-tsserver',
-		build = 'npm install --legacy-peer-deps'
-	},
-	{
-		'neoclide/coc-stylelint',
-		build = 'npm install --legacy-peer-deps'
-	},
-	{
-		'josa42/coc-lua',
-		build = 'npm install --legacy-peer-deps'
-	},
-	{
-		'neoclide/coc-prettier',
-		build = 'npm install --legacy-peer-deps'
-	},
-	{
-		'neoclide/coc-eslint',
-		build = 'npm install --legacy-peer-deps'
-	},
-	{
-		'neoclide/coc-css',
-		build = 'npm install --legacy-peer-deps'
-	},
-	{
-		'neoclide/coc-html',
-		build = 'npm install --legacy-peer-deps'
-	},
-	{
-		'neoclide/coc-json',
-		build = 'npm install --legacy-peer-deps'
-	},
-	{
-		'yaegassy/coc-volar',
-		build = 'npm install --legacy-peer-deps'
-	},
-	{
-		'neoclide/coc-pairs',
-		build = 'npm install --legacy-peer-deps'
-	},
-	-- NOTE: Coc plugins END
-
 })
+
+require('plugins.stylelint').setup()
+vim.keymap.set('n', '<leader>dls', ':StylelintCurrentFile<CR>', { noremap = true, silent = true })
