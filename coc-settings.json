@@ -4,6 +4,13 @@
   "prettier.configPath": ".prettierrc",
   "tsserver.enable": true,
   "eslint.enable": true,
+
+  "diagnostic.enable": true,
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.enableSign": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.displayByAle": false,
+
   "eslint.filetypes": [
     "javascript",
     "typescript",
@@ -18,8 +25,7 @@
   "coc.preferences.showMessageLevel": "warning",
   "suggest.noselect": false,
   "suggest.autoTrigger": "trigger",
-  "diagnostic.enable": true,
-  "diagnostic.checkCurrentLine": true,
+
   "coc.preferences.snippetIndicator": "●",
   "coc.preferences.maxImportLines": 5,
   "coc.source.file.enable": true,

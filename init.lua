@@ -5,6 +5,14 @@ vim.opt.relativenumber = true
 vim.opt.scrolloff = 10
 vim.opt.termguicolors = true
 
+vim.diagnostic.config({
+	virtual_text = true,
+	signs = true,
+	update_in_insert = true,
+	underline = true,
+	severity_sort = true,
+})
+
 -- Bootstrap Lazy Vim package manger
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -92,6 +100,7 @@ require("lazy").setup({
 			require('which-key').add {
 				{ '<leader>a',  group = '[A]ctions' },
 				{ '<leader>c',  group = '[C]ode' },
+				{ '<leader>cd', group = '[D]iagnostics' },
 				{ '<leader>d',  group = '[D]ocument' },
 				{ '<leader>dl', group = '[L]int' },
 				{ '<leader>df', group = '[F]ormat' },
@@ -99,7 +108,7 @@ require("lazy").setup({
 				{ '<leader>s',  group = '[S]earch' },
 				{ '<leader>w',  group = '[W]orkspace' },
 				{ '<leader>t',  group = '[T]oggle' },
-				{ '<leader>h',  group = 'Git [H]unk', mode = { 'n', 'v' } },
+				{ '<leader>h',  group = 'Git [H]unk',   mode = { 'n', 'v' } },
 			}
 		end,
 	},
@@ -489,7 +498,7 @@ require("lazy").setup({
 			---@diagnostic disable-next-line: redefined-local
 			local opts = { silent = true, nowait = true }
 			-- Show all diagnostics
-			keyset("n", "<leader>cd", ":<C-u>CocList diagnostics<cr>", opts)
+			keyset("n", "<leader>cdc", ":<C-u>CocList diagnostics<cr>", opts)
 			-- Manage extensions
 			keyset("n", "<leader>tce", ":<C-u>CocList extensions<cr>", opts)
 			-- Show commands
@@ -515,3 +524,12 @@ require("lazy").setup({
 
 require('plugins.stylelint').setup()
 vim.keymap.set('n', '<leader>dls', ':StylelintCurrentFile<CR>', { noremap = true, silent = true })
+
+require('plugins.stylelint-diagnostics').setup()
+
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+	pattern = { '*.vue', '*.css' },
+	command = "StylelintCurrentFileDiagnostics"
+})
+
+vim.api.nvim_set_keymap('n', '<leader>cdn', ':lua vim.diagnostic.setloclist()<CR>', { noremap = true, silent = true })
