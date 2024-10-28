@@ -18,6 +18,10 @@
     "typescriptreact",
     "vue"
   ],
+
+  //"sonarlint.ls.javaHome": "/usr/bin/java",
+  "sonarlint.languages": ["vue", "javascript", "typescript", "css"],
+
   "coc.preferences.formatOnSave": true,
   "coc.preferences.formatOnType": true,
   "coc.preferences.autoImportSuggestions": true,
@@ -34,5 +38,6 @@
   "coc.source.project.enable": true,
   "coc.source.path.enable": true,
   "coc.source.manifest.enable": true,
-  "coc.source.yarn.enable": true
+  "coc.source.yarn.enable": true,
+  "sonarlint.ls.javaHome": "/home/ondrej/.config/coc/extensions/coc-sonarlint-data/jdk-17.0.8/javajre-linux-64/jre"
 }

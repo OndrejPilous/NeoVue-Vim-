@@ -52,10 +52,10 @@ require("lazy").setup({
 					shade = "dark",
 					percentage = 0.15, -- percentage of the shade to apply to the inactive window
 				},
-				no_italic = false, -- Force no italic
-				no_bold = false, -- Force no bold
+				no_italic = false,  -- Force no italic
+				no_bold = false,    -- Force no bold
 				no_underline = false, -- Force no underline
-				styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+				styles = {          -- Handles the styles of general hi groups (see `:h highlight-args`):
 					comments = { "italic" }, -- Change the style of comments
 					conditionals = { "italic" },
 					loops = {},
@@ -91,8 +91,11 @@ require("lazy").setup({
 			vim.cmd.colorscheme "catppuccin"
 		end,
 	},
-
-	{             -- Useful plugin to show you pending keybinds.
+	{
+		'echasnovski/mini.nvim',
+		version = false
+	},
+	{                 -- Useful plugin to show you pending keybinds.
 		'folke/which-key.nvim',
 		event = 'VimEnter', -- Sets the loading event to 'VimEnter'
 		config = function() -- This is the function that runs, AFTER loading
@@ -276,7 +279,16 @@ require("lazy").setup({
 			"MunifTanjim/nui.nvim",
 		},
 		config = function()
-			vim.keymap.set('n', '<C-n>', '<CMD>Neotree toggle<CR>')
+			vim.keymap.set('n', '<leader>tn', '<CMD>Neotree toggle<CR>')
+
+			require('neo-tree').setup {
+				filesystem = {
+					filtered_items = {
+						visible = true, -- This is what you want: If you set this to `true`, all "hide" just mean "dimmed out"
+						hide_dotfiles = false,
+						hide_gitignored = false,
+					},
+				} }
 		end
 	},
 	-- NOTE: Nice looking bar on the bottom
@@ -433,9 +445,9 @@ require("lazy").setup({
 			keyset("n", "<leader>cf", "<Plug>(coc-fix-current)", opts)
 
 			-- Remap keys for apply refactor code actions.
-			keyset("n", "<leader>re", "<Plug>(coc-codeaction-refactor)", { silent = true })
-			keyset("x", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-			keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+			keyset("n", "<leader>cre", "<Plug>(coc-codeaction-refactor)", { silent = true })
+			keyset("x", "<leader>crs", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+			keyset("n", "<leader>crs", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
 
 			-- Run the Code Lens actions on the current line
 			keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
@@ -522,16 +534,95 @@ require("lazy").setup({
 			end, {})
 		end,
 	},
+	-- NOTE: Translation
+	{
+		"uga-rosa/translate.nvim",
+		opts = {
+			default = {
+				command = "deepl_free",
+				output = "floating"
+			},
+			preset = {
+				output = {
+					split = {
+						append = true,
+					},
+				},
+			},
+		},
+		config = function()
+			vim.keymap.set({ 'n', 'v' }, '<leader>tte', ':Translate EN<CR>', { noremap = true, silent = true })
+			vim.keymap.set({ 'n', 'v' }, '<leader>ttd', ':Translate DE<CR>', { noremap = true, silent = true })
+			vim.keymap.set({ 'n', 'v' }, '<leader>ttse', ':Translate EN -output=split <CR>',
+				{ noremap = true, silent = true })
+			vim.keymap.set({ 'n', 'v' }, '<leader>ttsd', ':Translate DE -output=split <CR>',
+				{ noremap = true, silent = true })
+			vim.keymap.set({ 'n', 'v' }, '<leader>ttie', ':Translate EN -output=insert <CR>',
+				{ noremap = true, silent = true })
+			vim.keymap.set({ 'n', 'v' }, '<leader>ttid', ':Translate DE -output=insert <CR>',
+				{ noremap = true, silent = true })
+			vim.keymap.set({ 'n', 'v' }, '<leader>ttre', ':Translate EN -output=replace<CR>',
+				{ noremap = true, silent = true })
+			vim.keymap.set({ 'n', 'v' }, '<leader>ttrd', ':Translate DE -output=replace<CR>',
+				{ noremap = true, silent = true })
+		end,
+	},
+	-- NOTE: For ai integration (with Ollama)
+	{
+		"David-Kunz/gen.nvim",
+		opts = {
+			model = "llama3.1:latest", -- The default model to use.
+			quit_map = "q",   -- set keymap for close the response window
+			retry_map = "<c-r>", -- set keymap to re-send the current prompt
+			accept_map = "<c-cr>", -- set keymap to replace the previous selection with the last result
+			host = "localhost", -- The host running the Ollama service.
+			port = "11434",   -- The port on which the Ollama service is listening.
+			display_mode = "split", -- The display mode. Can be "float" or "split" or "horizontal-split".
+			show_prompt = false, -- Shows the prompt submitted to Ollama.
+			show_model = true, -- Displays which model you are using at the beginning of your chat session.
+			no_auto_close = false, -- Never closes the window automatically.
+			hidden = false,   -- Hide the generation window (if true, will implicitly set `prompt.replace = true`), requires Neovim >= 0.10
+			init = function(options) pcall(io.popen, "ollama serve > /dev/null 2>&1 &") end,
+			-- Function to initialize Ollama
+			command = function(options)
+				local body = { model = options.model, stream = true }
+				return "curl --silent --no-buffer -X POST http://" ..
+					options.host .. ":" .. options.port .. "/api/chat -d $body"
+			end,
+			-- The command for the Ollama service. You can use placeholders $prompt, $model and $body (shellescaped).
+			-- This can also be a command string.
+			-- The executed command must return a JSON object with { response, context }
+			-- (context property is optional).
+			-- list_models = '<omitted lua function>', -- Retrieves a list of model names
+			debug = false -- Prints errors and the command which is run.
+		}
+	},
 })
 
+require('gen').prompts['Describe this code'] = {
+	prompt =
+	"Generate short description of the following code. \n```$filetype\n$text\n```",
+}
+
+-- NOTE: automatic stylelint on vue files diagnostics
 require('plugins.stylelint').setup()
 vim.keymap.set('n', '<leader>dls', ':StylelintCurrentFile<CR>', { noremap = true, silent = true })
 
 require('plugins.stylelint-diagnostics').setup()
 
-vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
-	pattern = { '*.vue', '*.css' },
-	command = "StylelintCurrentFileDiagnostics"
-})
+-- vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+-- pattern = { '*.vue', '*.css' },
+-- command = "StylelintCurrentFileDiagnostics"
+--})
 
 vim.api.nvim_set_keymap('n', '<leader>cdn', ':lua vim.diagnostic.setloclist()<CR>', { noremap = true, silent = true })
+
+-- Add CoC Prettier if prettier is installed
+if vim.fn.isdirectory('./node_modules') == 1 and vim.fn.isdirectory('./node_modules/prettier') == 1 then
+	vim.g.coc_global_extensions = vim.list_extend(vim.g.coc_global_extensions or {}, { 'coc-prettier' })
+end
+
+-- Add CoC ESLint if ESLint is installed
+if vim.fn.isdirectory('./node_modules') == 1 and vim.fn.isdirectory('./node_modules/eslint') == 1 then
+	vim.g.coc_global_extensions = vim.list_extend(vim.g.coc_global_extensions or {}, { 'coc-eslint' })
+end
